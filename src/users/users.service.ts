@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from '../entities/Users';
 import { Repository } from 'typeorm';
@@ -19,7 +19,8 @@ export class UsersService {
                 password: hashedPassword,
             });
         } catch (e) {
-            console.log({ e });
+            if (e.code === 'ER_DUP_ENTRY')
+                throw new BadRequestException('같은 이메일 안됨');
             throw e;
         }
     }

@@ -30,8 +30,12 @@ export class UsersController {
     }
     @ApiOperation({ summary: '회원가입' })
     @Post()
-    createUser(@Body() data: JoinRequestDto) {
-        this.usersService.createUser(data.email, data.nickname, data.password);
+    async createUser(@Body() data: JoinRequestDto) {
+        await this.usersService.createUser(
+            data.email,
+            data.nickname,
+            data.password,
+        );
     }
     @ApiOperation({ summary: '로그인' })
     @Post('login')
